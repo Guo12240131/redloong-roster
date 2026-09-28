@@ -5,7 +5,8 @@
 
 ![预览](preview.png)
 
-**[在线演示 →](https://redloong-gallery.app.workbuddy.host/)**
+> 本仓库不绑定任何在线演示站点 —— clone 后用任意静态服务器打开 `index.html` 即可看到效果
+> （未配置云端时以离线单机版运行，功能完整）。
 
 ---
 
