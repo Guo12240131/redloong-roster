@@ -96,7 +96,8 @@
 <!-- ============ 云端同步配置 ============
      复制 assets/cloud.config.example.js 为 assets/cloud.config.js 后填入自己的云项目。
      该文件被 .gitignore 排除 —— 云凭据属于每个人自己，不进版本库。
-     没有它时页面照常打开，同步层自动关闭（离线单机版，编辑只存本机）。 -->
+     没有它时页面照常打开，同步层自动关闭（离线单机版，编辑只存本机）；
+     此时控制台会有一条 cloud.config.js 的 404，属正常现象，不影响任何功能。 -->
 <script src="assets/cloud.config.js"></script>
 <script src="assets/vendor/workbuddy-cloud-sdk.global.js"></script>
 <script src="assets/heraldry.js"></script>
