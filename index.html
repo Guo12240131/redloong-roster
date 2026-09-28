@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>红龙骑士团 · 名册</title>
+<meta name="description" content="红龙骑士团 RedLoong · 中世纪骑士公会人物画廊 · 议事厅、骑士团与友军骑士团">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- ============ 背景：石墙 / 炉火 / 尘埃 ============ -->
+<div class="bg" aria-hidden="true">
+  <div class="bg__stone"></div>
+  <div class="bg__grain"></div>
+  <div class="bg__torch bg__torch--l"></div>
+  <div class="bg__torch bg__torch--r"></div>
+  <div class="bg__torch bg__torch--c"></div>
+  <canvas class="bg__dust" id="dust"></canvas>
+  <div class="bg__vignette"></div>
+</div>
+<div class="swordcut" aria-hidden="true"></div>
+
+<!-- ============ 主体 ============ -->
+<div class="shell">
+
+  <header class="masthead">
+    <div class="crest-wrap" id="crestSlot" title="红龙骑士团"></div>
+    <h1 class="guild-name" id="guildName">红龙骑士团</h1>
+    <div class="guild-en" id="guildEn">Order of the Grey Falcon</div>
+    <div class="guild-motto" id="guildMotto"></div>
+    <p class="guild-blurb" id="guildBlurb"></p>
+    <div class="rule">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 2 L15 9 L22 12 L15 15 L12 22 L9 15 L2 12 L9 9 Z"/>
+      </svg>
+    </div>
+    <p class="guild-blurb" id="guildFounded" style="font-size:12px;opacity:.6;margin-top:12px"></p>
+  </header>
+
+  <nav class="hallnav" id="hallNav" aria-label="廷导航"></nav>
+
+  <main id="halls"></main>
+
+  <footer class="footer">
+    <span class="sigil" title="红龙">✠</span> 红龙骑士团 · 名册 · 誓言与铁同等重
+    <div class="footer__hint">盾牌挂在墙上，谁来取走，谁就去守那道缺口。</div>
+  </footer>
+
+</div>
+
+<!-- ============ 详情页 ============ -->
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-label="成员详情">
+  <button class="detail__close" id="detailClose" aria-label="关闭">✕</button>
+  <div class="detail__inner">
+    <div class="scroll" id="detailBody"></div>
+  </div>
+</div>
+
+<!-- ============ 编辑弹窗 ============ -->
+<!-- 只认面板上的「取消 / ✕」和 Esc 关闭：点面板外的暗区不再误关（表单填一半被吹掉太亏） -->
+<div class="modal modal--form" id="modal" role="dialog" aria-modal="true" data-no-backdrop-close>
+  <div class="modal__panel" id="modalPanel"></div>
+</div>
+
+<!-- ============ 锻造模式工具条（隐蔽，仅编辑态升起） ============ -->
+<div class="editbar" id="editBar">
+  <b>锻造模式</b>
+  <span id="editHint">双击团徽 · Ctrl+Shift+E · #forge 切换</span>
+  <button class="cloudchip" id="cloudChip" type="button" title="云同步状态">
+    <i id="chipRole">未登录</i><em id="chipState">云端同步</em>
+  </button>
+  <button id="btnQueue" data-ed="queue">审核队列<span class="queue-dot" id="queueDot"></span></button>
+  <button id="btnMine" data-ed="mine">我的投稿</button>
+  <button id="btnGuild" data-ed="guild">团徽与箴言</button>
+  <button data-ed="export">导出</button>
+  <button id="btnImport" data-ed="import">导入</button>
+  <button id="btnReset" data-ed="reset">还原</button>
+  <button data-ed="exit">退出</button>
+</div>
+<input type="file" id="importFile" accept="application/json" style="display:none">
+
+<!-- ============ 云同步 / 登录弹窗（独立，不和编辑表单抢同一个弹窗） ============ -->
+<div class="modal modal--sync" id="syncModal" role="dialog" aria-modal="true">
+  <div class="modal__panel" id="syncPanel"></div>
+</div>
+
+<!-- ============ 审核队列 / 我的投稿 ============ -->
+<div class="modal modal--queue" id="queueModal" role="dialog" aria-modal="true">
+  <div class="modal__panel" id="queuePanel"></div>
+</div>
+
+<!-- ============ 云端同步配置 ============
+     复制 assets/cloud.config.example.js 为 assets/cloud.config.js 后填入自己的云项目。
+     该文件被 .gitignore 排除 —— 云凭据属于每个人自己，不进版本库。
+     没有它时页面照常打开，同步层自动关闭（离线单机版，编辑只存本机）。 -->
+<script src="assets/cloud.config.js"></script>
+<script src="assets/vendor/workbuddy-cloud-sdk.global.js"></script>
+<script src="assets/heraldry.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/sync.js"></script>
+<script src="assets/review.js"></script>
+<script src="assets/editor.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# ============================================================
+# 云凭据：每人填自己的，不进版本库
+# 模板见 assets/cloud.config.example.js
+# ============================================================
+assets/cloud.config.js
+
+# 构建产物
+dist/
+publish/
+
+# 调试用的临时探针脚本（tools/debug-cdp-run.mjs 是工具，保留；
+# 这些是每次排查时临时写的断言，不该进库）
+_probe_*.txt
+*.probe.txt
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# Python（build.py 的缓存）
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 日志
+*.log
+npm-debug.log*
