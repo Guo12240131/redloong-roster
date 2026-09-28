@@ -10,11 +10,21 @@
 //      表达式文件里写一段 async IIFE，可以真实 await 网络；脚本会连同 console / 异常一起打印。
 //
 // 注意：脚本内置 Network.setCacheDisabled，防止浏览器拿着旧 assets 反复验证。
+//
+// 可选环境变量：
+//   CDP_BLOCK_URLS=<逗号分隔的域名片段>
+//     屏蔽指定的外部请求。做**离线/本地验证**时务必带上
+//     fonts.googleapis.com,fonts.gstatic.com —— 字体 <link rel="stylesheet"> 会阻塞
+//     后续 <script> 执行，国内网络下拉不开会让页面迟迟不初始化，
+//     表现出来就是「window.Sync / window.GalleryEdit 一直是 undefined」。
+//   CDP_WAIT_MS=<毫秒，默认 3500>  导航后等待多久再执行表达式
 import { readFileSync } from 'node:fs';
 
 const base = 'http://127.0.0.1:9222';
 const [url, exprFile] = process.argv.slice(2);
 const expr = readFileSync(exprFile, 'utf-8');
+const blockUrls = (process.env.CDP_BLOCK_URLS || '').split(',').map((s) => s.trim()).filter(Boolean);
+const waitMs = Number(process.env.CDP_WAIT_MS || 3500);
 
 const t = await (await fetch(`${base}/json/new?${encodeURIComponent(url)}`, { method: 'PUT' })).json();
 const ws = new WebSocket(t.webSocketDebuggerUrl);
@@ -53,7 +63,11 @@ await send('Page.enable');
 await send('Runtime.enable');
 await send('Network.enable');
 await send('Network.setCacheDisabled', { cacheDisabled: true });   // 别让浏览器缓存旧的 assets
-await new Promise((r) => setTimeout(r, 3500));
+if (blockUrls.length) {
+  await send('Network.setBlockedURLs', { urls: blockUrls.map((u) => '*' + u + '*') });
+  console.log('[已屏蔽外网请求]', blockUrls.join(', '));
+}
+await new Promise((r) => setTimeout(r, waitMs));
 
 const guard = new Promise((r) => setTimeout(() => r({ TIMEOUT: true }), 180000));
 const res = await Promise.race([
